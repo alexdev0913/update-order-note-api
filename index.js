@@ -35,7 +35,26 @@ app.post("/update_order", (req, res) => {
   }).catch(function (err) {
     res.send("error")
   })
+})
 
+app.post("/update_ga", (req, res) => {
+  const API_SECRET = "PFuJ-HPlTG6ym4eFqyOy1g";
+  const MEASUREMENT_ID = "G-TSLJKQSFB3"
+  const { payload } = req.body
+
+  fetch(`https://www.google-analytics.com/mp/collect?api_secret=${API_SECRET}&measurement_id=${MEASUREMENT_ID}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  }).then(function (response) {
+    console.log(response)
+    res.send("GA updated!")
+  }).catch(function (err) {
+    console.log(err)
+    res.send("error")
+  })
 })
 
 app.listen(port, () => {
